@@ -15,6 +15,7 @@ class B2BPriceCollector:
         print("🚀 브라우저 시작 (최적화 모드)...")
         
         options = Options()
+        options.add_argument('--headless=new')
         options.add_argument('--start-maximized')
         prefs = {
             'profile.managed_default_content_settings.images': 2,
@@ -296,3 +297,4 @@ class B2BPriceCollector:
     def close(self):
         self.driver.quit()
         print("\n🏁 작업 종료!")
+
