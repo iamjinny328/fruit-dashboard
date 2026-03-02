@@ -11,28 +11,34 @@ from datetime import datetime
 import os
 
 class B2BPriceCollector:
-    def __init__(self):
-        print("🚀 브라우저 시작 (리눅스 서버 최적화 모드)...")
+def __init__(self):
+        print("🚀 브라우저 시작 (Streamlit Cloud 최적화 모드)...")
         
         options = Options()
-        # --- Streamlit Cloud(리눅스 서버) 필수 옵션 ---
-        options.add_argument('--headless=new')             # 화면 없이 실행
-        options.add_argument('--no-sandbox')               # 보안 제한 해제
-        options.add_argument('--disable-dev-shm-usage')    # 공유 메모리 부족 방지
-        options.add_argument('--disable-gpu')              # GPU 가속 끄기
+        # 서버 환경 필수 5종 세트
+        options.add_argument('--headless=new')
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-dev-shm-usage')
+        options.add_argument('--disable-gpu')
+        options.add_argument('--disable-extensions')
+        
+        # 실제 서버 내 크롬 위치를 직접 지정 (가장 확실함)
+        options.binary_location = "/usr/bin/chromium"
+        
+        # 자동화 탐지 방지
         options.add_argument('--disable-blink-features=AutomationControlled')
-        # -------------------------------------------
         
-        options.add_argument('--start-maximized')
-        prefs = {
-            'profile.managed_default_content_settings.images': 2,
-            'profile.default_content_setting_values.notifications': 2
-        }
-        options.add_experimental_option('prefs', prefs)
-        
-        # 서버 환경에서는 webdriver-manager가 가장 안정적입니다.
-        service = Service(ChromeDriverManager().install())
-        self.driver = webdriver.Chrome(service=service, options=options)
+        # 서버 환경에서는 Service 경로를 직접 지정해주는 게 에러가 적습니다.
+        try:
+            # 기본 경로 시도
+            service = Service("/usr/bin/chromedriver")
+            self.driver = webdriver.Chrome(service=service, options=options)
+        except:
+            # 위 경로가 안 될 경우 webdriver-manager 사용
+            print("⚠️ 기본 경로 실패, webdriver-manager를 시도합니다.")
+            service = Service(ChromeDriverManager().install())
+            self.driver = webdriver.Chrome(service=service, options=options)
+            
         self.results = []
         
     def login(self, site_name, login_url, username, password, username_selector, password_selector, login_button_selector):
@@ -113,3 +119,4 @@ class B2BPriceCollector:
                         
                         from config import SITES
                         detail_url_pattern = SITES[site_name].get('detail_url
+
