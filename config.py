@@ -188,11 +188,13 @@ SITES = {
 # 관심 상품 키워드 (과일 위주)
 # 키워드 파일에서 읽어오기
 try:
+    # 'utf-8-sig'는 한글 깨짐을 방지하는 가장 확실한 열쇠입니다.
     with open('keywords.txt', 'r', encoding='utf-8-sig') as f:
-    FILTER_KEYWORDS = f.read().splitlines()
-    print(f"✅ 키워드 {len(FILTER_KEYWORDS)}개 로드됨")
+        FILTER_KEYWORDS = f.read().splitlines() # 이 줄을 안으로 한 칸 들여써야 합니다.
+        print(f"✅ 키워드 {len(FILTER_KEYWORDS)}개 로드됨")
 except FileNotFoundError:
     FILTER_KEYWORDS = ['감귤', '한라봉', '사과']
+    print("⚠️ keywords.txt 파일을 찾을 수 없어 기본 키워드를 사용합니다.")
 
 
 # 제외 키워드 (채소, 반찬류)
@@ -204,4 +206,5 @@ MAX_PAGES = None
 # 가격 변동 감지 설정
 ENABLE_PRICE_CHANGE_ALERT = True
 PRICE_HISTORY_FILE = '가격이력.xlsx'
+
 
