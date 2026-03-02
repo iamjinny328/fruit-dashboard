@@ -1,8 +1,6 @@
 streamlit
 pandas
-requests
-beautifulsoup4
-lxml
-python-dateutil
 selenium
 webdriver-manager
+openpyxl
+lxml
