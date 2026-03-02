@@ -188,8 +188,8 @@ SITES = {
 # 관심 상품 키워드 (과일 위주)
 # 키워드 파일에서 읽어오기
 try:
-    with open('keywords.txt', 'r', encoding='utf-8') as f:
-        FILTER_KEYWORDS = [line.strip() for line in f if line.strip()]
+    with open('keywords.txt', 'r', encoding='utf-8-sig') as f:
+    FILTER_KEYWORDS = f.read().splitlines()
     print(f"✅ 키워드 {len(FILTER_KEYWORDS)}개 로드됨")
 except FileNotFoundError:
     FILTER_KEYWORDS = ['감귤', '한라봉', '사과']
@@ -204,3 +204,4 @@ MAX_PAGES = None
 # 가격 변동 감지 설정
 ENABLE_PRICE_CHANGE_ALERT = True
 PRICE_HISTORY_FILE = '가격이력.xlsx'
+
